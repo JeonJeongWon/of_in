@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from train import *
 from salehAmp import *
 
 # a = np.array([-3-3j,-3-1j,-3+1j,-3+3j,
@@ -22,6 +23,5 @@ from salehAmp import *
 # plt.plot(in_pw,out_pw)
 # plt.show()
 
-
-a = np.arange(0,128,1)
-print(a.reshape(64,2).reshape(128,))
+train_data, test_data = data_generate()
+train(0,train_data,test_data)  # 0 : loss_1 only training, # 1 : loss_1 + papr training

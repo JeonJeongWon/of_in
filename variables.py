@@ -7,9 +7,9 @@ parser = argparse.ArgumentParser()
 
 # system parameter
 parser.add_argument("--num_sc",default=64,type=int,help="Number Of Subarriers")
-parser.add_argument("--num_paths",default=2,type=int,help="Number Of Channel paths")
+parser.add_argument("--num_ch_paths",default=2,type=int,help="Number Of Channel paths")
 parser.add_argument("--bps",default=2,type=int,help="Number Of Bits per Symbol")
-parser.add_argument("--num_datas",default=1e+5,type=int,help="Number Of Data")
+parser.add_argument("--num_datas",default=100000,type=int,help="Number Of Data")
 #parser.add_argument("--FFTsize",default=)
 
 # channel parameter
@@ -28,7 +28,7 @@ args = parser.parse_args()
 @dataclass
 class system:
     num_sc = args.num_sc
-    num_paths = args.num_paths
+    num_ch_paths = args.num_paths
     num_datas = args.num_datas
     bps = args.bps
 sys = system

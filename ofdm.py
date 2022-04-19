@@ -12,10 +12,10 @@ def s2p (tx_data_bits):
 def p2s (rx_data_bits):
     return rx_data_bits.reshape((-1,))
 
-def papr(tx_data_sym):
-    sigsq=np.power(np.abs(tx_data_sym),2)
-    paprdB = 10.0*np.log10(np.divide(np.max(sigsq,axis=-1),np.mean(sigsq,axis=-1)))
-    return paprdB
+# def papr(tx_data_sym):
+#     sigsq=np.power(np.abs(tx_data_sym),2)
+#     paprdB = 10.0*np.log10(np.divide(np.max(sigsq,axis=-1),np.mean(sigsq,axis=-1)))
+#     return paprdB
 #-------------------------------------------------------------------------------
 
 def flt2com(tx_data_sym_div):
@@ -23,8 +23,8 @@ def flt2com(tx_data_sym_div):
     return tf.complex(tx_data_sym_div[:,:,0],tx_data_sym_div[:,:,1])
     #return tf.complex(tx_data_sym_div[:,:sys.num_sc],tx_data_sym_div[:,sys.num_sc:])
 
-def IFFT(tx_data_sym_div):
-    return tf.signal.ifft(tx_data_sym_div)
+def IFFT(tx_data_sym):
+    return tf.signal.ifft(tx_data_sym)
 
 def FFT(rx_time_sym):
     return tf.siganl_fft(rx_time_sym)

@@ -19,7 +19,7 @@ def p2s (rx_data_bits):
 #-------------------------------------------------------------------------------
 
 def flt2com(tx_data_sym_div):
-    tf.reshape(tx_data_sym_div,shape=(nn.batch_size,sys.num_sc,sys.bps))
+    tx_data_sym_div = tf.reshape(tx_data_sym_div,shape=(nn.batch_size,sys.num_sc,sys.bps))
     return tf.complex(tx_data_sym_div[:,:,0],tx_data_sym_div[:,:,1])
     #return tf.complex(tx_data_sym_div[:,:sys.num_sc],tx_data_sym_div[:,sys.num_sc:])
 

@@ -20,18 +20,18 @@ def data_generate():
         test_time_bits_p = s2p(test_time_bits_s)
         test_data_[i, :, :] = test_time_bits_p
 
-    tx_data = tx_data.reshape(sys.num_datas, sys.num_sc * sys.bps)
-    test_data_ = test_data_.reshape(sys.num_datas // 6, sys.num_sc * sys.bps)
+    train_data = tx_data.reshape(sys.num_datas, sys.num_sc * sys.bps)
+    test_data = test_data_.reshape(sys.num_datas // 6, sys.num_sc * sys.bps)
     # Bit Generate---------------------------------------------------------
 
-    train_data = tf.data.Dataset.from_tensor_slices(tx_data).shuffle(sys.num_datas).batch(nn.batch_size,
-                                                                                          drop_remainder=True)
-    test_data = tf.data.Dataset.from_tensor_slices(test_data_).shuffle(sys.num_datas // 6).batch(nn.batch_size,
-                                                                                                 drop_remainder=True)
     return train_data,test_data
 
 def train(train_ver,train_data,test_data):
 
+    train_data = tf.data.Dataset.from_tensor_slices(train_data).shuffle(sys.num_datas).batch(nn.batch_size,
+                                                                                          drop_remainder=True)
+    test_data = tf.data.Dataset.from_tensor_slices(test_data).shuffle(sys.num_datas // 6).batch(nn.batch_size,
+                                                                                                 drop_remainder=True)
     AEmodel = autoencoder()
 
     train_loss_1 = tf.keras.metrics.Mean(name="train_loss_1") # BER
@@ -48,7 +48,7 @@ def train(train_ver,train_data,test_data):
              loss_1 = AEmodel.train_1(x_batch)
              train_loss_1(loss_1)
 
-          for x_batch_test in enumerate(tqdm(test_data)):
+          for x_batch_test in enumerate(test_data):
              loss_1_t = AEmodel.compute_loss_1(x_batch_test)
              test_loss_1(loss_1_t)
 
@@ -71,7 +71,7 @@ def train(train_ver,train_data,test_data):
                 loss_1,loss_2 = AEmodel.train_2(x_batch)
                 train_loss_1(loss_1);train_loss_2(loss_2)
 
-            for x_batch_test in enumerate(tqdm(test_data)):
+            for x_batch_test in enumerate(test_data):
                 loss_1_t,loss_2_t = AEmodel.compute_loss_2(x_batch_test)
                 test_loss_1(loss_1_t);test_loss_2(loss_2_t)
 

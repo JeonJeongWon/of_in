@@ -74,7 +74,7 @@ class autoencoder(tf.keras.Model):
         return cg, loss_1, papr
 
     def train_1(self,x):
-        cg, loss_1 = self.compute_loss_1(x)
+        cg, loss_1 = self.compute_loss_1(x[1])
         self.optimizer.apply_gradients(zip(cg,self.encoder.trainable_variables+self.decoder.trainable_variables))
         return loss_1
 

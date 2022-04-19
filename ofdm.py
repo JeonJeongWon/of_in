@@ -2,8 +2,8 @@ import numpy as np
 import tensorflow as tf
 from variables import *
 
-def bitsGenerate(tx_num_data_sc):
-    tx_data_bits = np.random.binomial(n=1,p=0.5,size=(tx_num_data_sc*sys.bps))
+def bitsGenerate():
+    tx_data_bits = np.random.binomial(n=1,p=0.5,size=(sys.num_sc*sys.bps))
     return tx_data_bits
 
 def s2p (tx_data_bits):

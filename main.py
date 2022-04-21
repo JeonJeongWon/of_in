@@ -40,7 +40,10 @@ if gpus:
 train_data, test_data = data_generate()
 AE = autoencoder()
 model_loss_1 = train(0,AE,train_data,test_data)  # 0 : loss_1 only training, # 1 : loss_1 + papr training
+model_trained = train(1,model_loss_1,train_data,test_data)
 
 model_loss_1.encoder.save("Encoder_loss1.h5")
 model_loss_1.decoder.save("Decoder_loss1.h5")
 
+model_trained.encoder.save("encoder_trained.h5")
+model_trained.decoder.save("decoder_trained.h5")

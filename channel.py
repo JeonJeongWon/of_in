@@ -29,7 +29,7 @@ def channel(tx_time_sym):
 
     return ch_tx_result + noise
 
-
+@tf.function
 def ch_mat_operation(tx_time_sym, ch_time_circ_mat):
     for i in range(nn.batch_size):
         if i == 0:

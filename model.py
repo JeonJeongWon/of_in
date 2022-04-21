@@ -1,6 +1,7 @@
 import tensorflow as tf
 from variables import *
 from ofdm import *
+from channel import *
 
 class autoencoder(tf.keras.Model):
     def __init__(self,**kwargs):
@@ -17,7 +18,7 @@ class autoencoder(tf.keras.Model):
 
     def log10(self,x):
         numerator = tf.math.log(x)
-        denominator = tf.math.log(tf.constant(10,dtype = numerator.type))
+        denominator = tf.math.log(tf.constant(10,dtype=numerator.dtype))
         return numerator/denominator
 
     def compute_loss_1(self,x):
@@ -27,7 +28,7 @@ class autoencoder(tf.keras.Model):
         tx_fre_sym = flt2com(tx_fre_sym_div)
         tx_time_sym = IFFT(tx_fre_sym)
         # CH-------------------------------------
-        ofdm_sym = channel(tx_time_sym,ch.snrdb)
+        ofdm_sym = channel(tx_time_sym)
         # RX-------------------------------------
         rx_fre_sym = FFT(ofdm_sym)
         rx_fre_sym_div = com2flt(rx_fre_sym)
@@ -44,7 +45,7 @@ class autoencoder(tf.keras.Model):
         tx_fre_sym = flt2com(tx_fre_sym_div)
         tx_time_sym = IFFT(tx_fre_sym)
         # CH-------------------------------------
-        ofdm_sym = channel(tx_time_sym, ch.snrdb)
+        ofdm_sym = channel(tx_time_sym)
         # RX-------------------------------------
         rx_fre_sym = FFT(ofdm_sym)
         rx_fre_sym_div = com2flt(rx_fre_sym)
@@ -74,12 +75,12 @@ class autoencoder(tf.keras.Model):
         return cg, loss_1, papr
 
     def train_1(self,x):
-        cg, loss_1 = self.compute_loss_1(x[1])
+        cg, loss_1 = self.compute_gradient_1(x)
         self.optimizer.apply_gradients(zip(cg,self.encoder.trainable_variables+self.decoder.trainable_variables))
         return loss_1
 
     def train_2(self,x):
-        cg, loss_1, papr = self.compute_loss_1(x)
+        cg, loss_1,papr = self.compute_gradient_2(x)
         self.optimizer.apply_gradients(zip(cg,self.encoder.trainable_variables+self.decoder.trainable_variables))
         return loss_1, papr
 

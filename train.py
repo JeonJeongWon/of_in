@@ -45,11 +45,11 @@ def train(train_ver,train_data,test_data):
           start_time = time.time()
 
           for x_batch in enumerate(tqdm(train_data)):
-             loss_1 = AEmodel.train_1(x_batch)
+             loss_1 = AEmodel.train_1(x_batch[1])
              train_loss_1(loss_1)
 
           for x_batch_test in enumerate(test_data):
-             loss_1_t = AEmodel.compute_loss_1(x_batch_test)
+             loss_1_t = AEmodel.compute_loss_1(x_batch_test[1])
              test_loss_1(loss_1_t)
 
           template = 'Epoch {:d}/{:d}, Train-Loss: [{:2.4f}], Test-Loss: [{:2.4f}]'

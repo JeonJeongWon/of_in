@@ -22,6 +22,5 @@ from salehAmp import *
 # #
 # plt.plot(in_pw,out_pw)
 # plt.show()
-
 train_data, test_data = data_generate()
 model_loss_1 = train(0,train_data,test_data)  # 0 : loss_1 only training, # 1 : loss_1 + papr training

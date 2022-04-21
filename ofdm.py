@@ -24,10 +24,10 @@ def flt2com(tx_data_sym_div):
     #return tf.complex(tx_data_sym_div[:,:sys.num_sc],tx_data_sym_div[:,sys.num_sc:])
 
 def IFFT(tx_data_sym):
-    return tf.signal.ifft(tx_data_sym)
+    return tf.signal.ifft(tx_data_sym)*tf.complex(tf.math.sqrt(tf.cast(sys.num_sc,dtype=tf.dtypes.float32)),0.0)
 
 def FFT(rx_time_sym):
-    return tf.siganl_fft(rx_time_sym)
+    return tf.signal.fft(rx_time_sym)/tf.complex(tf.math.sqrt(tf.cast(sys.num_sc,dtype=tf.dtypes.float32)),0.0)
 
 def com2flt(rx_fre_sym_comb):
     rx_fre_sym_div_real = tf.math.real(rx_fre_sym_comb)

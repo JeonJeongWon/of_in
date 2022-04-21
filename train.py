@@ -26,13 +26,12 @@ def data_generate():
 
     return train_data,test_data
 
-def train(train_ver,train_data,test_data):
+def train(train_ver,model,train_data,test_data):
 
     train_data = tf.data.Dataset.from_tensor_slices(train_data).shuffle(sys.num_datas).batch(nn.batch_size,
                                                                                           drop_remainder=True)
     test_data = tf.data.Dataset.from_tensor_slices(test_data).shuffle(sys.num_datas // 6).batch(nn.batch_size,
                                                                                                  drop_remainder=True)
-    AEmodel = autoencoder()
 
     train_loss_1 = tf.keras.metrics.Mean(name="train_loss_1") # BER
     train_loss_2 = tf.keras.metrics.Mean(name="train_loss_2") # PAPR
@@ -45,11 +44,11 @@ def train(train_ver,train_data,test_data):
           start_time = time.time()
 
           for x_batch in enumerate(tqdm(train_data)):
-             loss_1 = AEmodel.train_1(x_batch[1])
+             loss_1 = model.train_1(x_batch[1])
              train_loss_1(loss_1)
 
           for x_batch_test in enumerate(test_data):
-             loss_1_t = AEmodel.compute_loss_1(x_batch_test[1])
+             loss_1_t = model.compute_loss_1(x_batch_test[1])
              test_loss_1(loss_1_t)
 
           template = 'Epoch {:d}/{:d}, Train-Loss: [{:2.4f}], Test-Loss: [{:2.4f}]'
@@ -60,7 +59,7 @@ def train(train_ver,train_data,test_data):
           train_loss_1.reset_states()
           test_loss_1.reset_states()
 
-        return AEmodel
+        return model
 
     # loss_1 + papr ------------------------------------------------
     elif train_ver == 1:
@@ -68,11 +67,11 @@ def train(train_ver,train_data,test_data):
             start_time = time.time()
 
             for x_batch in enumerate(tqdm(train_data)):
-                loss_1,loss_2 = AEmodel.train_2(x_batch)
+                loss_1,loss_2 = model.train_2(x_batch)
                 train_loss_1(loss_1);train_loss_2(loss_2)
 
             for x_batch_test in enumerate(test_data):
-                loss_1_t,loss_2_t = AEmodel.compute_loss_2(x_batch_test)
+                loss_1_t,loss_2_t = model.compute_loss_2(x_batch_test)
                 test_loss_1(loss_1_t);test_loss_2(loss_2_t)
 
             template = 'Epoch {:d}/{:d}, Train-Loss: [{:2.4f},{:2.4f}], Test-Loss: [{:2.4f},{:2.4f}]'
@@ -86,4 +85,4 @@ def train(train_ver,train_data,test_data):
             test_loss_1.reset_states()
             test_loss_2.reset_states()
 
-        return AEmodel
+        return model

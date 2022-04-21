@@ -60,8 +60,8 @@ def train(train_ver,model,train_data,test_data):
           test_loss_1.reset_states()
 
           nn.wait +=1
-          if train_loss_1 > nn.best_1:
-              nn.best_1 = train_loss_1
+          if train_loss_1.result()  > nn.best_1:
+              nn.best_1 = train_loss_1.result()
               nn.wait=0
           if nn.wait>=nn.patience: break
 
@@ -92,8 +92,8 @@ def train(train_ver,model,train_data,test_data):
             test_loss_2.reset_states()
 
             nn.wait += 1
-            if train_loss_2 > nn.best_2:
-                nn.best_2 = train_loss_2
+            if train_loss_2.result() > nn.best_2:
+                nn.best_2 = train_loss_2.result()
                 nn.wait = 0
             if nn.wait >= nn.patience: break
 

@@ -21,7 +21,7 @@ class autoencoder(tf.keras.Model):
         denominator = tf.math.log(tf.constant(10,dtype=numerator.dtype))
         return numerator/denominator
 
-    @tf.function
+
     def compute_loss_1(self,x):
         # BER LOSS
         # TX-------------------------------------
@@ -39,7 +39,7 @@ class autoencoder(tf.keras.Model):
 
         return loss_1
 
-    @tf.function
+
     def compute_loss_2(self, x):
         # BER LOSS
         # TX-------------------------------------
@@ -63,14 +63,13 @@ class autoencoder(tf.keras.Model):
 
         return loss_1, papr
 
-    @tf.function
     def compute_gradient_1(self,x):
         with tf.GradientTape() as tape:
             loss_1 = self.compute_loss_1(x)
         cg = tape.gradient(loss_1,self.encoder.trainable_variables + self.decoder.trainable_variables)
         return cg, loss_1
 
-    @tf.function
+
     def compute_gradient_2(self,x):
         with tf.GradientTape() as tape:
             loss_1, papr = self.compute_loss_2(x)
@@ -78,14 +77,12 @@ class autoencoder(tf.keras.Model):
         cg = tape.gradient(loss_sum,self.encoder.trainable_variables + self.decoder.trainable_variables)
         return cg, loss_1, papr
 
-    @tf.function
     def train_1(self,x):
         cg, loss_1 = self.compute_gradient_1(x)
-        self.callback
         self.optimizer.apply_gradients(zip(cg,self.encoder.trainable_variables+self.decoder.trainable_variables))
         return loss_1
 
-    @tf.function
+
     def train_2(self,x):
         cg, loss_1,papr = self.compute_gradient_2(x)
         self.optimizer.apply_gradients(zip(cg,self.encoder.trainable_variables+self.decoder.trainable_variables))
@@ -138,5 +135,3 @@ class autoencoder(tf.keras.Model):
     ]
 
     optimizer= tf.keras.optimizers.Adam(learning_rate=nn.lr)
-    # early_stopping_1 = tf.kears.callbacks.EarlyStopping(monitor='train_loss_1',min_delta=0.001,patience=10,verbose=1,mode='min',restore_best_weights='True')
-    # early_stopping_2 = tf.kears.callbacks.EarlyStopping(monitor='train_loss_1',min_delta=0.01,patience=10,verbose=1,mode='min',restore_best_weights='True')

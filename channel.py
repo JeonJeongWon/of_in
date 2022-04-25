@@ -37,6 +37,6 @@ def ch_mat_operation(tx_time_sym, ch_time_circ_mat):
         else:
             x = tf.concat([x,
                            tf.reshape(tf.linalg.matmul(ch_time_circ_mat[i],tf.reshape(tx_time_sym[i], shape=(sys.num_sc, -1))),shape=(-1, sys.num_sc))], axis=0)
-            if i == (sys.num_sc-1) : return x
+            if i == (nn.batch_size-1) : return x
 
 

@@ -19,7 +19,7 @@ parser.add_argument("--snrdb",default=10,type=int,help="SNRdB")
 ## NN parameter
 parser.add_argument("--num_nodes",default=2048,type=int,help='Number of Nodes in Layer')
 parser.add_argument("--batch_size",default=64, type=int,help="Batch Size")
-parser.add_argument("--epochs",default=1000,type=int,help="Epochs")
+parser.add_argument("--epochs",default=10,type=int,help="Epochs")
 parser.add_argument("--weight",default=0.01,type=float,help="Weights for loss fumction")
 parser.add_argument("--lr",default=1e-4,type=float,help="Learning Rate")
 parser.add_argument("--patience",default=10,type=int,help="EarlyStopping_patience")

@@ -73,11 +73,11 @@ def train(train_ver,model,train_data,test_data):
             start_time = time.time()
 
             for x_batch in enumerate(tqdm(train_data)):
-                loss_1,loss_2 = model.train_2(x_batch)
+                loss_1,loss_2 = model.train_2(x_batch[1])
                 train_loss_1(loss_1);train_loss_2(loss_2)
 
             for x_batch_test in enumerate(test_data):
-                loss_1_t,loss_2_t = model.compute_loss_2(x_batch_test)
+                loss_1_t,loss_2_t = model.compute_loss_2(x_batch_test[1])
                 test_loss_1(loss_1_t);test_loss_2(loss_2_t)
 
             template = 'Epoch {:d}/{:d}, Train-Loss: [{:2.4f},{:2.4f}], Test-Loss: [{:2.4f},{:2.4f}]'
